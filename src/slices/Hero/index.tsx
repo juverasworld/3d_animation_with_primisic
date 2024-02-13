@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { KeyTextField } from "@prismicio/client";
 import { Content } from "@prismicio/client";
@@ -13,21 +13,38 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
   useEffect(() => {
     let ctx = gsap.context(() => {
       const tl = gsap.timeline();
-      tl.fromTo(".name-animation", {
-        x: -100,
+      tl.fromTo(
+        ".name-animation",
+        {
+          x: -100,
+          opacity: 0,
+          rotate: -10,
+        },
+        {
+          x: 0,
+          opacity: 1,
+          rotate: 0,
+          ease: "elastic.out(1,0.3)",
+          duration: 1,
+          transformOrigin: "left top",
+          delay:0.5,
+          stagger: {
+            each: 0.1,
+            from: "random",
+          },
+        }
+      );
+
+      tl.fromTo(".job-title", {
+        y: 20,
         opacity: 0,
-        rotate: -10,
+        scale: 1.2,
       },{
-        x:0,
         opacity:1,
-        rotate:0,
-        ease: "elastic.out(1,0.3)",
+        y:0,
         duration:1,
-        transformOrigin: "left top",
-        stagger:{
-          each:0.1,
-          from: "random"
-        } 
+        scale:1,
+        ease: "elastic.out(1,0.3)",
 
       });
     }, component);
@@ -67,7 +84,7 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
               {renderLetters(slice.primary.last_name, "last")}
             </span>
           </h1>
-          <span className="block bg-gradient-to-tr from-yellow-500 via-yellow-200 to bg-yellow-500 bg-clip-text text-2xl font-bold uppercase tracking-[.2em] text-transparent opacity-100 md:text-4xl ">
+          <span className="block job-title bg-gradient-to-tr from-yellow-500 via-yellow-200 to bg-yellow-500 bg-clip-text text-2xl font-bold uppercase tracking-[.2em] text-transparent opacity-0 md:text-4xl ">
             {slice.primary.tag_line}
           </span>
         </div>

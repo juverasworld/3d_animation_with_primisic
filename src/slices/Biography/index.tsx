@@ -1,6 +1,8 @@
 import Bounded from "@/components/Bounded";
+import Button from "@/components/Button";
+import Heading from "@/components/Heading";
 import { Content } from "@prismicio/client";
-import { SliceComponentProps } from "@prismicio/react";
+import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 
 /**
  * Props for `Biography`.
@@ -16,10 +18,15 @@ const Biography = ({ slice }: BiographyProps): JSX.Element => {
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
     >
-     <div className="grid gap-x-8 gap-y-6 grid-cols-[2fr]">
-
-      
-     </div>
+      <div className="grid gap-x-8 text-white gap-y-6 grid-cols-[2fr]">
+        <Heading as="h1" size="xl" className="col-start-1">
+          {slice.primary.heading}
+        </Heading>
+        <div className="prose prose-xl prose-slate prose-invert col-start-1">
+          <PrismicRichText field={slice.primary.description} />
+        </div>
+        <Button linkField={slice.primary.button_link} label={slice.primary.button_text}/>
+      </div>
     </Bounded>
   );
 };

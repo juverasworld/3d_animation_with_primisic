@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="bg-slate-900">
+    <html lang="en" className="bg-slate-900 ">
       <Head>
       <link
         href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700&display=swap"

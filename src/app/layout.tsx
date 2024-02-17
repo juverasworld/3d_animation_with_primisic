@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import {  Syne } from "next/font/google";
 import Head from "next/head";
 import "./globals.css";
+import Header from "@/components/Header";
 
 const syne = Syne({ subsets: ["latin"] });
 
@@ -23,7 +24,10 @@ export default function RootLayout({
         rel="stylesheet"
       />
       </Head>
-      <body className={syne.className}>{children}</body>
+      <body className={syne.className}>
+      <Header/>
+        
+        {children}</body>
     </html>
   );
 }

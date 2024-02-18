@@ -16,7 +16,14 @@
         "type": "Slices",
         "fieldset": "Slice Zone",
         "config": {
-          "choices": {}
+          "choices": {
+            "textblock": {
+              "type": "SharedSlice"
+            },
+            "content_index": {
+              "type": "SharedSlice"
+            }
+          }
         }
       }
     },

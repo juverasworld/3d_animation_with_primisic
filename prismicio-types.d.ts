@@ -4,7 +4,7 @@ import type * as prismic from "@prismicio/client";
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-type BlogPostDocumentDataSlicesSlice = never;
+type BlogPostDocumentDataSlicesSlice = TextblockSlice | ContentIndexSlice;
 
 /**
  * Content for Blog post documents
@@ -441,6 +441,91 @@ export type BiographySlice = prismic.SharedSlice<
 >;
 
 /**
+ * Primary content in *ContentIndex → Primary*
+ */
+export interface ContentIndexSliceDefaultPrimary {
+  /**
+   * Heading field in *ContentIndex → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: content_index.primary.heading
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  heading: prismic.KeyTextField;
+
+  /**
+   * Content type field in *ContentIndex → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**:
+   * - **API ID Path**: content_index.primary.content_type
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  content_type: prismic.SelectField<"Blog" | "Project">;
+
+  /**
+   * Description field in *ContentIndex → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: content_index.primary.description
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * View More Text field in *ContentIndex → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: content_index.primary.view_more_text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  view_more_text: prismic.KeyTextField;
+
+  /**
+   * Fall back item image field in *ContentIndex → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: content_index.primary.fall_back_item_image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  fall_back_item_image: prismic.ImageField<never>;
+}
+
+/**
+ * Default variation for ContentIndex Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type ContentIndexSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<ContentIndexSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *ContentIndex*
+ */
+type ContentIndexSliceVariation = ContentIndexSliceDefault;
+
+/**
+ * ContentIndex Shared Slice
+ *
+ * - **API ID**: `content_index`
+ * - **Description**: ContentIndex
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type ContentIndexSlice = prismic.SharedSlice<
+  "content_index",
+  ContentIndexSliceVariation
+>;
+
+/**
  * Primary content in *Hero → Primary*
  */
 export interface HeroSliceDefaultPrimary {
@@ -572,6 +657,36 @@ export type TechlistSlice = prismic.SharedSlice<
   TechlistSliceVariation
 >;
 
+/**
+ * Default variation for Textblock Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type TextblockSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Record<string, never>,
+  never
+>;
+
+/**
+ * Slice variation for *Textblock*
+ */
+type TextblockSliceVariation = TextblockSliceDefault;
+
+/**
+ * Textblock Shared Slice
+ *
+ * - **API ID**: `textblock`
+ * - **Description**: Textblock
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type TextblockSlice = prismic.SharedSlice<
+  "textblock",
+  TextblockSliceVariation
+>;
+
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -599,6 +714,10 @@ declare module "@prismicio/client" {
       BiographySliceDefaultPrimary,
       BiographySliceVariation,
       BiographySliceDefault,
+      ContentIndexSlice,
+      ContentIndexSliceDefaultPrimary,
+      ContentIndexSliceVariation,
+      ContentIndexSliceDefault,
       HeroSlice,
       HeroSliceDefaultPrimary,
       HeroSliceVariation,
@@ -608,6 +727,9 @@ declare module "@prismicio/client" {
       TechlistSliceDefaultItem,
       TechlistSliceVariation,
       TechlistSliceDefault,
+      TextblockSlice,
+      TextblockSliceVariation,
+      TextblockSliceDefault,
     };
   }
 }

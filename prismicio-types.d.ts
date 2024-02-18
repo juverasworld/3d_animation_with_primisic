@@ -4,49 +4,49 @@ import type * as prismic from "@prismicio/client";
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-type BlogDocumentDataSlicesSlice = ContentIndexsSlice;
+type BlogPostDocumentDataSlicesSlice = never;
 
 /**
- * Content for blog documents
+ * Content for Blog post documents
  */
-interface BlogDocumentData {
+interface BlogPostDocumentData {
   /**
-   * Slice Zone field in *blog*
+   * Slice Zone field in *Blog post*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
-   * - **API ID Path**: blog.slices[]
+   * - **API ID Path**: blog_post.slices[]
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#slices
    */
-  slices: prismic.SliceZone<BlogDocumentDataSlicesSlice> /**
-   * Meta Description field in *blog*
+  slices: prismic.SliceZone<BlogPostDocumentDataSlicesSlice> /**
+   * Meta Description field in *Blog post*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A brief summary of the page
-   * - **API ID Path**: blog.meta_description
+   * - **API ID Path**: blog_post.meta_description
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */;
   meta_description: prismic.KeyTextField;
 
   /**
-   * Meta Image field in *blog*
+   * Meta Image field in *Blog post*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: blog.meta_image
+   * - **API ID Path**: blog_post.meta_image
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/field#image
    */
   meta_image: prismic.ImageField<never>;
 
   /**
-   * Meta Title field in *blog*
+   * Meta Title field in *Blog post*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A title of the page used for social media and search engines
-   * - **API ID Path**: blog.meta_title
+   * - **API ID Path**: blog_post.meta_title
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
@@ -54,16 +54,20 @@ interface BlogDocumentData {
 }
 
 /**
- * blog document from Prismic
+ * Blog post document from Prismic
  *
- * - **API ID**: `blog`
- * - **Repeatable**: `false`
+ * - **API ID**: `blog_post`
+ * - **Repeatable**: `true`
  * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type BlogDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithUID<Simplify<BlogDocumentData>, "blog", Lang>;
+export type BlogPostDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<
+    Simplify<BlogPostDocumentData>,
+    "blog_post",
+    Lang
+  >;
 
 type HomepageDocumentDataSlicesSlice = HeroSlice;
 
@@ -346,7 +350,7 @@ export type SettingsDocument<Lang extends string = string> =
   >;
 
 export type AllDocumentTypes =
-  | BlogDocument
+  | BlogPostDocument
   | HomepageDocument
   | PageDocument
   | SettingsDocument;
@@ -434,91 +438,6 @@ type BiographySliceVariation = BiographySliceDefault;
 export type BiographySlice = prismic.SharedSlice<
   "biography",
   BiographySliceVariation
->;
-
-/**
- * Primary content in *ContentIndex → Primary*
- */
-export interface ContentIndexsSliceDefaultPrimary {
-  /**
-   * Heading field in *ContentIndex → Primary*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: content_indexs.primary.heading
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  heading: prismic.KeyTextField;
-
-  /**
-   * Content type field in *ContentIndex → Primary*
-   *
-   * - **Field Type**: Select
-   * - **Placeholder**: *None*
-   * - **API ID Path**: content_indexs.primary.content_type
-   * - **Documentation**: https://prismic.io/docs/field#select
-   */
-  content_type: prismic.SelectField<"Blog" | "Project">;
-
-  /**
-   * Description field in *ContentIndex → Primary*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: content_indexs.primary.description
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  description: prismic.RichTextField;
-
-  /**
-   * View More Text field in *ContentIndex → Primary*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: content_indexs.primary.view_more_text
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  view_more_text: prismic.KeyTextField;
-
-  /**
-   * fall back item image field in *ContentIndex → Primary*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: content_indexs.primary.fall_back_item_image
-   * - **Documentation**: https://prismic.io/docs/field#image
-   */
-  fall_back_item_image: prismic.ImageField<never>;
-}
-
-/**
- * Default variation for ContentIndex Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type ContentIndexsSliceDefault = prismic.SharedSliceVariation<
-  "default",
-  Simplify<ContentIndexsSliceDefaultPrimary>,
-  never
->;
-
-/**
- * Slice variation for *ContentIndex*
- */
-type ContentIndexsSliceVariation = ContentIndexsSliceDefault;
-
-/**
- * ContentIndex Shared Slice
- *
- * - **API ID**: `content_indexs`
- * - **Description**: ContentIndexs
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type ContentIndexsSlice = prismic.SharedSlice<
-  "content_indexs",
-  ContentIndexsSliceVariation
 >;
 
 /**
@@ -663,9 +582,9 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
-      BlogDocument,
-      BlogDocumentData,
-      BlogDocumentDataSlicesSlice,
+      BlogPostDocument,
+      BlogPostDocumentData,
+      BlogPostDocumentDataSlicesSlice,
       HomepageDocument,
       HomepageDocumentData,
       HomepageDocumentDataSlicesSlice,
@@ -680,10 +599,6 @@ declare module "@prismicio/client" {
       BiographySliceDefaultPrimary,
       BiographySliceVariation,
       BiographySliceDefault,
-      ContentIndexsSlice,
-      ContentIndexsSliceDefaultPrimary,
-      ContentIndexsSliceVariation,
-      ContentIndexsSliceDefault,
       HeroSlice,
       HeroSliceDefaultPrimary,
       HeroSliceVariation,
